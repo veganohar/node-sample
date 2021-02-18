@@ -3,7 +3,12 @@ const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-var jsonparser = bodyParser.json();
+
+// parse requests of content-type - application/json
+app.use(bodyParser.json({limit:'50mb'}));
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true, limit:'50mb' }));
+
 app.listen(port,()=>{
     console.log("Node sample programming running");
 });
@@ -18,28 +23,10 @@ mongoose.connect("mongodb://localhost/testdb", {
       console.log("error",err);
       process.exit();  
     });
+    
 app.get('/',(req,res)=>{ 
     res.send("Hello World");
 });
 
-app.get('/test',(req,res)=>{
-    res.send("Better World");
-});
 
-app.post('/test/test1',jsonparser,(req,res)=>{
-    console.log(req.body);
-    let obj = req.body;
-    obj.city = "Hyderabad";
-    res.send(obj);
-});
-
-
-app.get('/paramtest/:name',(req,res)=>{
-    console.log(req.params);
-    res.send("Tested");
-});
-
-app.get('/querytest',(req,res)=>{
-    console.log(req.query);
-    res.send("Query Tested");
-})
+require("./app/routes/test.routes")(app);
