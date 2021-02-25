@@ -14,4 +14,5 @@ module.exports = function (app) {
     app.get('/paramtest/:name',controller.paramtest);
     app.get('/querytest',controller.querytest);
     app.post('/test/test1',controller.posttest);
+    app.get('/api/test/getAllData', controller.getAllData);
 }
